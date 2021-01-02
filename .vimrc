@@ -16,10 +16,11 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
 "Themes
-Plugin 'dracula/vim'
+"Plugin 'dracula/vim'
 Plugin 'tomasr/molokai'
 Plugin 'gh123man/vim-atom-dark'
 Plugin 'reewr/vim-monokai-phoenix'
+Plugin 'liuchengxu/space-vim-dark'
 " CPP Syntax
 Plugin 'octol/vim-cpp-enhanced-highlight'
 
@@ -32,6 +33,14 @@ Plugin 'ryanoasis/vim-devicons'
 
 "Tagbar
 Plugin 'majutsushi/tagbar'
+
+"Colorscheme switcher
+"Plugin 'felixhummel/setcolors.vim'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-colorscheme-switcher'
+
+"More ColorSchemes
+Plugin 'flazz/vim-colorschemes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -89,6 +98,10 @@ set shiftwidth=2 " Change the number of spaces for indendation
 set smarttab " force use of shiftwidth and tabstop
 set expandtab " insert spaces instead of tabs
 
+" space vim theme
+set termguicolors
+let g:space_vim_dark_background = 233
+
 "Set colorschme
 colorscheme molokai
 
@@ -101,14 +114,29 @@ set colorcolumn=80
 autocmd BufNewFile,BufRead * setlocal formatoptions-=r
 
 " Automatically remove whitespace
-autocmd BufWritePre * %s/\s\+$//e
+function! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 " -------------------------------KeyBindings---------------------------------------
 map <C-n> :NERDTreeToggle<CR>
 nmap <F8> :TagbarToggle<CR>
 
+"remap page up/down
+nnoremap <S-F> <C-F>
+nnoremap <S-B> <C-B>
+
 "split navigations
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+nnoremap <S-J> <C-W><C-J>
+nnoremap <S-K> <C-W><C-K>
+nnoremap <S-L> <C-W><C-L>
+nnoremap <S-H> <C-W><C-H>
+
+"modifyOtherKeys
+let &t_TI = ""
+let &t_TE = ""
